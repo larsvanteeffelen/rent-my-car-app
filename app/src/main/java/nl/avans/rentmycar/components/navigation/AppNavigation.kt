@@ -1,4 +1,4 @@
-package nl.avans.rentmycar.components
+package nl.avans.rentmycar.components.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import nl.avans.rentmycar.screens.CarsScreen
 import nl.avans.rentmycar.screens.HomeScreen
 import nl.avans.rentmycar.screens.SettingsScreen
+import nl.avans.rentmycar.screens.StartScreen
 
 @Composable
 fun AppNavigation() {
@@ -39,7 +40,6 @@ fun AppNavigation() {
                                 launchSingleTop = true
                                 restoreState = true
                             }
-
                         },
                         icon = {
                             Icon(
@@ -57,9 +57,12 @@ fun AppNavigation() {
     ) {paddingValues ->  
         NavHost(
             navController = navController,
-            startDestination = "home",
+            startDestination = "start",
             modifier = Modifier.padding(paddingValues)
         ) {
+            composable(route = "start") {
+                StartScreen()
+            }
             composable(route = "home") {
                 HomeScreen()
             }
@@ -70,6 +73,5 @@ fun AppNavigation() {
                 SettingsScreen()
             }
         }
-
     }
 }

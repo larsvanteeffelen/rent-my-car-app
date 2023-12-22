@@ -1,4 +1,4 @@
-package nl.avans.rentmycar.components
+package nl.avans.rentmycar.components.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
