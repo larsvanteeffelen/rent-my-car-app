@@ -1,4 +1,4 @@
-package nl.avans.rentmycar.screens
+package nl.avans.rentmycar.ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +12,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import nl.avans.rentmycar.R
 import nl.avans.rentmycar.components.cars.CarCard
-import nl.avans.rentmycar.components.cars.CarCardList
 
 
 @Composable
@@ -21,6 +20,6 @@ fun HomeScreen() {
         modifier = Modifier.fillMaxSize().padding(8.dp),
         contentAlignment = Alignment.TopCenter
     ) {
-        CarCardList()
+
     }
 }

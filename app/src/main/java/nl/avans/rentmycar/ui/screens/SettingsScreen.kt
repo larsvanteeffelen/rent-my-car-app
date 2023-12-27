@@ -1,4 +1,4 @@
-package nl.avans.rentmycar.screens
+package nl.avans.rentmycar.ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
