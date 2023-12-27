@@ -20,7 +20,7 @@ fun CarCardList() {
     val title = "A new car!"
 
     LazyColumn {
-        items(2) {index ->
+        items(4) {index ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -28,7 +28,6 @@ fun CarCardList() {
             ){
                 CarCard(painter = painter, title = title, modifier = Modifier.weight(1.0F))
             }
-
         }
     }
 }

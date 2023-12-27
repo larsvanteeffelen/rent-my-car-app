@@ -68,4 +68,28 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    // Coil
+    implementation ("io.coil-kt:coil-compose:2.5.0")
+
+
+    //Dagger - Hilt
+    implementation ("com.google.dagger:hilt-android:2.40.5")
+    //kapt ("com.google.dagger:hilt-android-compiler:2.40.5")
+    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+   // kapt ("androidx.hilt:hilt-compiler:1.1.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+
+    // Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:5.0.0-alpha.3")
+    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
+
+    // Room
+    implementation ("androidx.room:room-runtime:2.6.1")
+   // kapt ("androidx.room:room-compiler:2.6.1")
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation ("androidx.room:room-ktx:2.6.1")
+
 }
