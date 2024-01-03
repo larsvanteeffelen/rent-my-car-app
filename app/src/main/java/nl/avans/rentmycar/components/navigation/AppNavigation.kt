@@ -25,36 +25,36 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     Scaffold (bottomBar = {
-            NavigationBar {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
+        NavigationBar {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentDestination = navBackStackEntry?.destination
 
-                navItemList.forEach { navItem ->
-                    NavigationBarItem(
-                        selected = currentDestination?.hierarchy?.any { it.route == navItem.route} == true,
-                        onClick = {
-                            navController.navigate(navItem.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
+            navItemList.forEach { navItem ->
+                NavigationBarItem(
+                    selected = currentDestination?.hierarchy?.any { it.route == navItem.route} == true,
+                    onClick = {
+                        navController.navigate(navItem.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
                             }
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = navItem.icon,
-                                contentDescription = null
-                            )
-                        },
-                        label = {
-                            Text(text = navItem.label)
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                    )
-                }
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = navItem.icon,
+                            contentDescription = null
+                        )
+                    },
+                    label = {
+                        Text(text = navItem.label)
+                    }
+                )
             }
         }
-    ) {paddingValues ->  
+    }
+    ) {paddingValues ->
         NavHost(
             navController = navController,
             startDestination = "start",
