@@ -1,5 +1,7 @@
 package nl.avans.rentmycar.components.navigation
 
+import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar

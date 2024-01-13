@@ -16,6 +16,6 @@ fun StartScreen() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Cars screen")
+        Text(text = "Start screen")
     }
 }

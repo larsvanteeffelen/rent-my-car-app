@@ -14,7 +14,7 @@ class CarApi {
     private val client = getClient()
     suspend fun fetchCars(): List<Car> {
 
-        val response = client.get("${getBaseURL()}/car/all")
+        val response = client.get("http://10.0.2.2:8080/car/all")
 
         return if (response.status.isSuccess()) {
             try {
@@ -27,7 +27,9 @@ class CarApi {
                     emptyList()
                 }
             } catch (e: SerializationException) {
-                // Log the exception or handle it appropriately
+                // Log the exception
+                e.printStackTrace()
+
                 emptyList()
             }
         } else {
