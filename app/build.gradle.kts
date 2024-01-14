@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
 }
 
 android {
@@ -13,6 +14,9 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        manifestPlaceholders["auth0Domain"] = "@string/com_auth0_domain"
+        manifestPlaceholders["auth0Scheme"] = "@string/com_auth0_scheme"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -38,6 +42,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -59,6 +64,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -68,8 +76,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     implementation("io.ktor:ktor-client-core:2.3.6")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-client-cio:2.3.6")
+    implementation("io.ktor:ktor-server-content-negotiation:2.3.6")
     implementation("io.ktor:ktor-client-content-negotiation:2.3.6")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.6")
+    implementation("com.auth0.android:auth0:2.0.0")
 
 }

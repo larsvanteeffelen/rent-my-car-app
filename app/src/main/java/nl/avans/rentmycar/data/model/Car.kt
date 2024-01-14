@@ -1,6 +1,6 @@
 package nl.avans.rentmycar.data.model
 
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
 
 @Serializable
 data class Car(
