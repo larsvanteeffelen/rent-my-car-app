@@ -47,4 +47,13 @@
     <string name="general_failure_with_exception_code">Failed - exception code: %1$s</string>
     <string name="general_success_message">Success!</string>
 
+    <string name="no_user_logged_in">No user logged in</string>
+    <string name="update_user_info">Update</string>
+    <string name="edit_name">Edit Name</string>
+    <string name="edit_email">Edit Email</string>
+    <string name="edit_address">Edit Address</string>
+    <string name="edit_city">Edit City</string>
+    <string name="edit_zipcode">Edit Zipcode</string>
+    <string name="logout">Logout</string>
+
 </resources>
