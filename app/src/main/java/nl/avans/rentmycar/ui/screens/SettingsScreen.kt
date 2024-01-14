@@ -25,9 +25,7 @@ import nl.avans.rentmycar.ui.viewmodels.UserViewModel
 
 @Composable
 fun ProfileScreen(
-    userViewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory()
-    )
+    userViewModel: UserViewModel
 ) {
     val uiState by userViewModel.uiState.collectAsState()
     val user = uiState.user

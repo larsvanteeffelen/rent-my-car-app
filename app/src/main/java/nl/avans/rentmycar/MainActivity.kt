@@ -1,5 +1,6 @@
 package nl.avans.rentmycar
 
+import OnboardingScreen
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -53,6 +54,8 @@ class MainActivity : ComponentActivity() {
             getString(R.string.com_auth0_domain)
         )
 
+        val userId = getPreferences(MODE_PRIVATE).getString("user_id", null)
+
         setContent {
             Column(
                 modifier = Modifier
@@ -60,10 +63,10 @@ class MainActivity : ComponentActivity() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (cachedCredentials == null) {
+                if (userId == null) {
                     LoginScreen()
                 } else {
-                    AppNavigation()
+                    AppNavigation(userId)
                 }
             }
         }
@@ -167,18 +170,13 @@ class MainActivity : ComponentActivity() {
                         override fun onSuccess(credentials: Credentials) {
                             cachedCredentials = credentials
                             showUserProfile()
-                            Log.d(
-                                "UserID",
-                                "UserID: 2 2 2 ${
-                                    getPreferences(MODE_PRIVATE).getString(
-                                        "user_id",
-                                        null
-                                    )
-                                }"
-                            )
+                            val userId = cachedUserProfile?.getExtraInfo()?.get("sub").toString()
+                            saveUserId(userId)
+
                             setContent {
-                                AppNavigation()
+                                AppNavigation(userId)
                             }
+
                         }
                     })
             }

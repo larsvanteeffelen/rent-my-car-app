@@ -8,7 +8,15 @@ import nl.avans.rentmycar.data.source.UserDataSource
 class UserRepository {
     private val userApi = UserApi()
     private val userDataSource: UserDataSource = UserDataSource(userApi)
-    fun fetchUser(): Flow<User?> {
-        return userDataSource.fetchUser
+    fun fetchUserById(id: Int): Flow<User?> {
+        return userDataSource.fetchUser(id)
     }
+    fun fetchUserByAuth(authId: String): Flow<User?> {
+        return userDataSource.fetchUserByAuth(authId)
+    }
+
+    fun postUser(user: User): Flow<Int?> {
+        return userDataSource.postUser(user)
+    }
+
 }

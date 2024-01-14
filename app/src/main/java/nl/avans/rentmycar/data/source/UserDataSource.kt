@@ -8,13 +8,21 @@ import nl.avans.rentmycar.data.model.User
 
 class UserDataSource(
     private val userApi: UserApi,
-    private val delayMs: Long = 500
 ) {
-    val fetchUser: Flow<User?> = flow {
-        val reservations = userApi.fetchUser()
-        emit(reservations)
-        delay(delayMs)
+    fun fetchUser(id: Int): Flow<User?> {
+        return flow{
+            emit(userApi.fetchUserByID(id))
+        }
+    }
+    fun fetchUserByAuth(authId: String): Flow<User?> {
+        return flow {
+            emit(userApi.fetchUserByAuthID(authId))
+        }
     }
 
-
+    fun postUser(user: User): Flow<Int?> {
+        return flow {
+            emit(userApi.postUser(user))
+        }
+    }
 }
