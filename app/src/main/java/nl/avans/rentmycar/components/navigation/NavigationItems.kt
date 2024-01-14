@@ -1,9 +1,9 @@
 package nl.avans.rentmycar.components.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class NavItem(
@@ -24,8 +24,8 @@ val navItemList = listOf<NavItem>(
         route = "cars"
     ),
     NavItem(
-        label = "Settings",
-        icon = Icons.Default.Settings,
-        route = "settings"
+        label = "Profile",
+        icon = Icons.Default.AccountCircle,
+        route = "profile"
     )
 )

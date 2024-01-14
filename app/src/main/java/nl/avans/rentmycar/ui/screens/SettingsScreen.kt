@@ -9,15 +9,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,7 +24,7 @@ import nl.avans.rentmycar.data.model.User
 import nl.avans.rentmycar.ui.viewmodels.UserViewModel
 
 @Composable
-fun SettingsScreen(
+fun ProfileScreen(
     userViewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory()
     )
@@ -45,6 +42,7 @@ fun SettingsScreen(
         if (user == null) {
             Text(text = stringResource(id = R.string.no_user_logged_in))
         } else {
+            Text(text = stringResource(id = R.string.your_info), style = MaterialTheme.typography.titleMedium)
             UserInfoSection(
                 user = user,
                 onNameChange = { /* Handle name change */ },
@@ -74,7 +72,7 @@ private fun UserInfoSection(
     onCityChange: (String) -> Unit,
     onZipcodeChange: (String) -> Unit
 ) {
-    LazyColumn() {
+    LazyColumn {
         item {
             EditableTextField(
                 label = stringResource(id = R.string.edit_name),

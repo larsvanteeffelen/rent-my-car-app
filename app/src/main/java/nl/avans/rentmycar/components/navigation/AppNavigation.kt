@@ -1,7 +1,5 @@
 package nl.avans.rentmycar.components.navigation
 
-import android.util.Log
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -19,7 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import nl.avans.rentmycar.ui.screens.CarScreen
 import nl.avans.rentmycar.ui.screens.HomeScreen
-import nl.avans.rentmycar.ui.screens.SettingsScreen
+import nl.avans.rentmycar.ui.screens.ProfileScreen
 import nl.avans.rentmycar.ui.screens.StartScreen
 
 @Composable
@@ -71,8 +69,8 @@ fun AppNavigation() {
             composable(route = "cars") {
                 CarScreen()
             }
-            composable(route = "settings") {
-                SettingsScreen()
+            composable(route = "profile") {
+                ProfileScreen()
             }
         }
     }
