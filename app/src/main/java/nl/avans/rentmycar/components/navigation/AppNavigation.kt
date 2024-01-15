@@ -1,6 +1,7 @@
 package nl.avans.rentmycar.components.navigation
 
 import OnboardingScreen
+import SettingsScreen
 import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -14,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -41,7 +43,7 @@ fun AppNavigation(authId: String) {
     val isLoading = uiState.isLoading
     val user = uiState.user
 
-    LaunchedEffect(user, isLoading) {
+    LaunchedEffect(rememberUpdatedState(user), rememberUpdatedState(isLoading)) {
         if (!isLoading) {
             if (user == null) {
                 navController.navigate("onboarding")
@@ -91,8 +93,8 @@ fun AppNavigation(authId: String) {
             composable(route = "cars") {
                 CarScreen()
             }
-            composable(route = "profile") {
-                ProfileScreen(userViewModel)
+            composable(route = "settings") {
+                SettingsScreen(userViewModel)
             }
             composable(route = "onboarding") {
                 OnboardingScreen(authId) {

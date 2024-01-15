@@ -11,4 +11,15 @@ class CarRepository {
     fun fetchCars(): Flow<List<Car>> {
         return carDataSource.fetchCars
     }
+    fun fetchCarsByOwner(ownerId:Int): Flow<List<Car>> {
+        return carDataSource.fetchCarsByOwner(ownerId)
+    }
+
+    fun createCar(car: Car): Flow<Int> {
+        return carDataSource.createCar(car)
+    }
+
+    fun deleteCar(carId: Int): Flow<Boolean> {
+        return carDataSource.deleteCar(carId)
+    }
 }
