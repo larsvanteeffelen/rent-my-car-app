@@ -13,16 +13,28 @@ import nl.avans.rentmycar.ui.state.CarUIState
 private val _uiState = MutableStateFlow(CarUIState())
 
 class CarViewModel : ViewModel() {
+    val carRepository = CarRepository()
     val uiState: StateFlow<CarUIState> = _uiState.asStateFlow()
 
     init {
-        val reservationsRepository = CarRepository()
         viewModelScope.launch {
-            reservationsRepository.fetchCars().collect { fetchedCars ->
+            carRepository.fetchCars().collect { fetchedCars ->
                 _uiState.update { uiState ->
                     uiState.copy(cars = fetchedCars)
                 }
             }
         }
     }
+
+    fun fetchCarsInRange(distanceInKm: Int, currentLatitude: Double, currentLongitude: Double) {
+        viewModelScope.launch {
+            carRepository.fetchCarsInRange(distanceInKm, currentLatitude, currentLongitude)
+                .collect { fetchedCars ->
+                    _uiState.update { uiState ->
+                        uiState.copy(cars = fetchedCars)
+                    }
+                }
+        }
+    }
+
 }

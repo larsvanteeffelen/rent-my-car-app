@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import nl.avans.rentmycar.data.api.CarApi
 import nl.avans.rentmycar.data.model.Car
+import nl.avans.rentmycar.data.model.User
 
 class CarDataSource(
     private val reservationsApi: CarApi,
@@ -17,4 +18,13 @@ class CarDataSource(
             delay(delayMs)
         }
     }
+
+    fun fetchCarsInRange(distanceInKm: Int, currentLatitude: Double, currentLongitude: Double): Flow<List<Car>> {
+        while (true) {
+            return flow {
+                reservationsApi.fetchCarsInRange(distanceInKm, currentLatitude, currentLongitude)
+            }
+        }
+    }
+
 }
