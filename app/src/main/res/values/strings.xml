@@ -56,5 +56,9 @@
     <string name="edit_city">Edit City</string>
     <string name="edit_zipcode">Edit Zipcode</string>
     <string name="logout">Logout</string>
+    <string name="add_car">Add your car</string>
+    <string name="edit_model">Edit model</string>
+    <string name="edit_rental_price">Edit Rental Price</string>
+    <string name="get_location">Get Location\n</string>
 
 </resources>

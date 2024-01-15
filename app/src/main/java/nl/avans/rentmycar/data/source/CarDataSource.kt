@@ -7,14 +7,26 @@ import nl.avans.rentmycar.data.api.CarApi
 import nl.avans.rentmycar.data.model.Car
 
 class CarDataSource(
-    private val reservationsApi: CarApi,
+    private val carApi: CarApi,
     private val delayMs: Long = 500
 ) {
     val fetchCars: Flow<List<Car>> = flow {
-        while(true) {
-            val reservations = reservationsApi.fetchCars()
+            val reservations = carApi.fetchCars()
             emit(reservations)
-            delay(delayMs)
+    }
+
+    fun fetchCarsByOwner(ownerId:Int): Flow<List<Car>> = flow {
+            val cars = carApi.fetchCarsByOwner(ownerId)
+            emit(cars)
+    }
+
+    fun createCar(car: Car): Flow<Int> = flow {
+        val createdCar = carApi.createCar(car)
+        if (createdCar != null) {
+            emit(createdCar)
+        }
+        else{
+            emit(0)
         }
     }
 }
