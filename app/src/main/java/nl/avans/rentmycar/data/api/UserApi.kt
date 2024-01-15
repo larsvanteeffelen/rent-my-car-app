@@ -63,4 +63,19 @@ class UserApi {
             return null
         }
     }
+
+    @OptIn(InternalAPI::class)
+    suspend fun updateUser(user: User): Boolean {
+        try {
+            val response = client.request("http://10.0.2.2:8080/user/${user.id}") {
+                method = io.ktor.http.HttpMethod.Put
+                body = Json.encodeToString(user)
+                headers.append("Content-Type", "application/json")
+            }
+
+            return response.status.isSuccess()
+        } catch (e: Exception) {
+             return false
+        }
+    }
 }

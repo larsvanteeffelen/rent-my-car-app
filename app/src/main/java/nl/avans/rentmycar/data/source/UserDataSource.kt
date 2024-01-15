@@ -25,4 +25,10 @@ class UserDataSource(
             emit(userApi.postUser(user))
         }
     }
+
+    fun updateUser(user: User): Flow<Boolean> {
+        return flow {
+            emit(userApi.updateUser(user))
+        }
+    }
 }

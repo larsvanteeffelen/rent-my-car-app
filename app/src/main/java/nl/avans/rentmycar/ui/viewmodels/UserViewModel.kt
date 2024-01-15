@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import nl.avans.rentmycar.data.model.User
 import nl.avans.rentmycar.data.repository.UserRepository
 import nl.avans.rentmycar.ui.state.UserState
 
@@ -32,6 +34,21 @@ class UserViewModel(authId: String) : ViewModel() {
                 // Handle exceptions if necessary
                 _uiState.update { uiState ->
                     uiState.copy(isLoading = false)
+                }
+            }
+        }
+    }
+
+    // Add a function to update the user if needed
+    fun updateUser(user: User) {
+        viewModelScope.launch {
+            val userRepository = UserRepository()
+            userRepository.updateUser(user).collect{ result ->
+                if (result) {
+                    val fetchedUser = userRepository.fetchUserByAuth(user.authId).firstOrNull()
+                    _uiState.update { uiState ->
+                        uiState.copy(user = fetchedUser, isLoading = false)
+                    }
                 }
             }
         }
