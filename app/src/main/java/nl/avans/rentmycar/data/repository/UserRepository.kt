@@ -19,4 +19,8 @@ class UserRepository {
         return userDataSource.postUser(user)
     }
 
+    fun updateUser(user: User): Flow<Boolean> {
+        return userDataSource.updateUser(user)
+    }
+
 }

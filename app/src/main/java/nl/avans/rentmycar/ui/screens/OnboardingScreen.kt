@@ -204,29 +204,3 @@ private fun Step2(onboardingData: MutableState<OnboardingData>, onComplete: () -
     }
 }
 
-private suspend fun postUserData(
-    onboardingData: OnboardingData,
-    userDataSource: UserDataSource,
-    onComplete: () -> Unit
-) {
-    // Use the userDataSource to post user data
-    val result = userDataSource.postUser(
-        User(
-            name = onboardingData.name,
-            address = onboardingData.address,
-            zipcode = onboardingData.zipcode,
-            city = onboardingData.city,
-            email = onboardingData.email,
-            drivingScore = onboardingData.drivingScore,
-            authId = onboardingData.authId
-        )
-    )
-    onComplete()
-}
-
-
-//@Preview
-//@Composable
-//fun OnboardingScreenPreview() {
-//    OnboardingScreen()
-//}
