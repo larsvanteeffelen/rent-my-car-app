@@ -87,4 +87,20 @@ class CarApi {
             return null
         }
     }
+
+    suspend fun deleteCar(carId: Int) {
+        try {
+            val response = client.request("http://10.0.2.2:8080/car/$carId") {
+                method = io.ktor.http.HttpMethod.Delete
+            }
+
+            if (response.status.isSuccess()) {
+                println("Delete request successful.")
+            } else {
+                println("Delete request failed. Status: ${response.status}")
+            }
+        } catch (e: Exception) {
+            println("Delete request exception: ${e.message}")
+        }
+    }
 }

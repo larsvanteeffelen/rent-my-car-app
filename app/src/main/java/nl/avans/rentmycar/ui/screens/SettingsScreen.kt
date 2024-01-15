@@ -1,3 +1,4 @@
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -18,12 +20,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nl.avans.rentmycar.R
 import nl.avans.rentmycar.data.model.Car
 import nl.avans.rentmycar.ui.screens.CarAddScreen
 import nl.avans.rentmycar.ui.screens.ProfileScreen
 import nl.avans.rentmycar.ui.state.UserState
+import nl.avans.rentmycar.ui.viewmodels.CarViewModel
 import nl.avans.rentmycar.ui.viewmodels.UserViewModel
 
 @Composable
@@ -46,7 +53,7 @@ fun SettingsScreen(userViewModel: UserViewModel) {
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                CarAddScreen(userViewModel, uiState.user!!, onLocationDenied = { currentPane = SettingsPane.Main })
+                CarAddScreen(userViewModel, uiState.user!!, onLocationDenied = { currentPane = SettingsPane.Main }, onComplete = { currentPane = SettingsPane.Main })
                 IconButton(
                     onClick = { currentPane = SettingsPane.Main },
                     modifier = Modifier
@@ -193,7 +200,10 @@ private fun CarList(
                     CarCard(
                         car = car,
                         onClick = { onCarClick(car) },
-                        onDeleteClick = { /* handle deleting car here */ }
+                        onDeleteClick = {
+                            userViewModel.deleteCar(it)
+                            userViewModel.refreshUserData(uiState.user!!.authId)
+                        }
                     )
                 }
             }
@@ -219,21 +229,29 @@ private fun CarList(
 private fun CarCard(
     car: Car,
     onClick: () -> Unit,
-    onDeleteClick: () -> Unit
+    onDeleteClick: (car: Car) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
             .padding(vertical = 8.dp, horizontal = 16.dp)
     ) {
+        Column {
+            Image(
+                painter = painterResource(id = getCarTypePicture(car.type)),
+                contentDescription = "Car image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentScale = ContentScale.Crop
+            )
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
                 .clickable { onClick() },
             verticalAlignment = Alignment.CenterVertically
-
         ) {
             Icon(
                 imageVector = Icons.Filled.DirectionsCar,
@@ -241,14 +259,21 @@ private fun CarCard(
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(text = "${car.make} ${car.model}", style = MaterialTheme.typography.bodyMedium)
-            Divider(
-                modifier = Modifier.align(Alignment.CenterVertically)
-            )
-//            Place the edit and delete icon buttons on the right side of the card
-
         }
+        Button(onClick = { onDeleteClick(car) }, modifier = Modifier.padding(8.dp)) {
+            Text(text = "Delete")
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete Car"
+            )
+        }
+
+
+
     }
+
 }
+
 
 @Composable
 private fun CarEditPane(
@@ -269,8 +294,15 @@ enum class SettingsPane {
     CarAdd
 }
 
-@Preview
-@Composable
-fun SettingsScreenPreview() {
-    SettingsScreen(UserViewModel("auth0|65a2fe0ef47e7ee2b26dc78b"))
+fun getCarTypePicture(type: String): Int {
+    return when (type) {
+        "Sedan" -> R.drawable.car_sedan
+        "Hatchback" -> R.drawable.car_hatchback
+        "SUV" -> R.drawable.car_suv
+        "Minivan" -> R.drawable.car_minivan
+        "Pickup" -> R.drawable.car_pickup
+        "Coupe" -> R.drawable.car_coupe
+        "Convertible" -> R.drawable.car_convertible
+        else -> R.drawable.car_sedan
+    }
 }

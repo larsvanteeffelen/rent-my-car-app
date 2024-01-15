@@ -94,4 +94,18 @@ class UserViewModel(authId: String) : ViewModel() {
             }
         }
     }
+
+    fun deleteCar(car: Car) {
+        viewModelScope.launch {
+            val carRepository = CarRepository()
+            carRepository.deleteCar(car.id!!).collectIndexed { index, result ->
+                if (result ) {
+                    val fetchedCars = carRepository.fetchCarsByOwner(car.ownerId).firstOrNull()
+                    _uiState.update { uiState ->
+                        uiState.copy(userCars = fetchedCars, isLoading = false)
+                    }
+                }
+            }
+        }
+    }
 }

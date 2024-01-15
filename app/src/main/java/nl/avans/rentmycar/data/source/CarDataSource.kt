@@ -29,4 +29,8 @@ class CarDataSource(
             emit(0)
         }
     }
+
+    fun deleteCar(carId: Int): Flow<Boolean> = flow {
+        carApi.deleteCar(carId)
+    }
 }

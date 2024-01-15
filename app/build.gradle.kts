@@ -85,8 +85,9 @@ dependencies {
     implementation("com.auth0.android:auth0:2.0.0")
     implementation("androidx.compose.material:material:1.5.4")
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
-    implementation("com.google.accompanist:accompanist-permissions:0.25.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.maps.android:maps-compose:4.3.0")
 
 
 }

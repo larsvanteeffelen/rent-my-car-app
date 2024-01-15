@@ -1,8 +1,6 @@
 package nl.avans.rentmycar.ui.screens
 
-import LocationScreen
 import android.location.Location
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,6 +12,7 @@ import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,8 +35,8 @@ import kotlinx.coroutines.launch
 import nl.avans.rentmycar.utils.LocationPermissionHandler
 
 @Composable
-fun CarAddScreen(userViewModel: UserViewModel, owner: User, onLocationDenied: () -> Unit ) {
-    var car by remember { mutableStateOf(Car(null, owner.id!!, 0.0, 0.0, "", "", 0.0, "")) }
+fun CarAddScreen(userViewModel: UserViewModel, owner: User, onLocationDenied: () -> Unit, onComplete: () -> Unit) {
+    val carData = remember { mutableStateOf(Car(null, owner.id!!, 0.0, 0.0, "", "", 0.0, "")) }
 
     var location by remember { mutableStateOf<Location?>(null) }
 
@@ -47,95 +46,78 @@ fun CarAddScreen(userViewModel: UserViewModel, owner: User, onLocationDenied: ()
 
     LocationPermissionHandler(
         onPermissionGranted = {
-            // Permission granted, fetch the location
             coroutineScope.launch {
                 location = LocationUtils.getCurrentLocation(context).firstOrNull()
-                car = car.copy(latitude = location?.latitude ?: 0.0, longitude = location?.longitude ?: 0.0)
-                Log.d("LocationPermission", "Location: $location")
+                carData.value = carData.value.copy(latitude = location?.latitude ?: 0.0, longitude = location?.longitude ?: 0.0)
             }
         },
         onPermissionDenied = {
-            Log.d("LocationPermission", "Permission denied")
-//            Go back to settings screen
-
+            onLocationDenied()
         }
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = stringResource(id = R.string.add_car),
-            style = MaterialTheme.typography.titleMedium
-        )
-        CarInfoSection(
-            car = car,
-            onMakeChange = { car = car.copy(make = it) },
-            onModelChange = { car = car.copy(model = it) },
-            onRentalPriceChange = { car = car.copy(rentalPrice = it) }
-        ) { car = car.copy(type = it) }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            CarInfoSection(carData)
 
-        Spacer(modifier = Modifier.height(16.dp))
-        AddButton(
-            text = stringResource(id = R.string.add_car),
-            onClick = {
-                if (car.make == "" || car.model == "" || car.type == "" || car.rentalPrice == 0.0) {
-                    return@AddButton
-                } else {
-                    userViewModel.addCar(car)
+            Spacer(modifier = Modifier.height(16.dp))
+
+            AddButton(
+                text = stringResource(id = R.string.add_car),
+                onClick = {
+                    userViewModel.addCar(carData.value)
+                    onComplete()
                 }
-            }
-        )
+            )
+        }
     }
 }
 
 @Composable
-private fun CarInfoSection(
-    car: Car, // Change the parameter type to Car
-    onMakeChange: (String) -> Unit,
-    onModelChange: (String) -> Unit,
-    onRentalPriceChange: (Double) -> Unit,
-    onTypeChange: (String) -> Unit
-) {
+private fun CarInfoSection(carData: MutableState<Car>) {
     // Convert Car to MutableState<Car>
-    val carState = remember { mutableStateOf(car) }
-
     LazyColumn {
         item {
             MakeDropdown(
-                make = carState.value.make,
-                onMakeChange = onMakeChange
+                make = carData.value.make,
+                onMakeChange = { carData.value = carData.value.copy(make = it) }
             )
         }
         item {
             EditableTextField(
                 label = stringResource(id = R.string.edit_model),
-                value = carState.value.model,
-                onValueChange = onModelChange
+                value = carData.value.model,
+                onValueChange = { carData.value = carData.value.copy(model = it) }
             )
         }
         item {
             EditableTextField(
                 label = stringResource(id = R.string.edit_rental_price),
-                value = carState.value.rentalPrice.toString(),
+                value = carData.value.rentalPrice.toString(),
                 onValueChange = {
                     val price = it.toDoubleOrNull() ?: 0.0
-                    onRentalPriceChange(price)
+                    carData.value = carData.value.copy(rentalPrice = price)
                 }
             )
         }
         item {
             TypeDropdown(
-                type = carState.value.type,
-                onTypeChange = onTypeChange
+                type = carData.value.type,
+                onTypeChange = { carData.value = carData.value.copy(type = it) }
             )
         }
     }
 }
+
 
 
 @Composable

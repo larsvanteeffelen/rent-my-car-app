@@ -18,4 +18,8 @@ class CarRepository {
     fun createCar(car: Car): Flow<Int> {
         return carDataSource.createCar(car)
     }
+
+    fun deleteCar(carId: Int): Flow<Boolean> {
+        return carDataSource.deleteCar(carId)
+    }
 }
