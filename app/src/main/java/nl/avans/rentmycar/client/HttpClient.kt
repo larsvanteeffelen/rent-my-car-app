@@ -4,16 +4,14 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 
-const val BASE_URL: String = "http://localhost:8080"
+object HttpClient {
+    const val BASE_URL: String = "http://localhost:8080"
 
-fun getClient(): HttpClient {
-    return HttpClient {
-        install(ContentNegotiation) {
-            json()
+    val client: HttpClient by lazy {
+        HttpClient {
+            install(ContentNegotiation) {
+                json()
+            }
         }
     }
-}
-
-fun getBaseURL(): String {
-    return BASE_URL
 }
